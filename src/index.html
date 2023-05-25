@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="UTF-8">
+    
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css?family=Faster+One" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+
+    </header>
+
+    <section>
+
+    </section>
+    <script>
+        async function populate(){
+            const requesturl="https://mdn.github.io/learning-area/javascript/oojs/json/superheroes.json";
+            const request=new Request(requesturl);
+
+            const response=await fetch(request);
+            const superHeroes=await response.json();
+            populateHeader(superHeroes);
+            populateHeroes(superHeroes);
+        }
+
+        function populateHeader(obj){
+            const header=document.querySelector('header');
+            
+            const myHd1=document.createElement('h1');
+            myHd1.textContent=obj.squadName;
+            header.appendChild(myHd1);
+            
+            const data=document.createElement('p');
+            data.textContent = `HomeTown: ${obj.homeTown} // Formed: ${obj.formed}`;
+            header.appendChild(data);
+        }
+
+        function populateHeroes(obj){
+            const section = document.querySelector('section');
+
+            for(const hero of obj.members){
+                const myArticle=document.createElement('article');
+                const suphero=document.createElement('h2');
+                const identity=document.createElement('p');
+                const age=document.createElement('p');
+                const list=document.createElement('p');
+                const unorder=document.createElement('ul');
+
+                suphero.textContent=`${hero.name}`;
+                identity.textContent=`id: ${hero.secretIdentity}`;
+                age.textContent=`age: ${hero.age}`;
+                list.textContent='superPowers: ';
+                
+                for(const name of hero.powers){
+                    const elem=document.createElement('li');
+                    elem.textContent=`${name}`;
+                    unorder.appendChild(elem);
+                }
+                
+
+                myArticle.appendChild(suphero);
+                myArticle.appendChild(identity);
+                myArticle.appendChild(age);
+                myArticle.appendChild(list);
+                myArticle.appendChild(unorder);
+               
+
+
+                section.appendChild(myArticle);
+            }
+            
+        }
+        populate();
+
+    </script>
+</body>
+</html>
+
